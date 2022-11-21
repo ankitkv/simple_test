@@ -1,6 +1,13 @@
 # simple_test
 
-Run like:
+Prepare the environment:
+```
+conda create -n simple_test python=3.9
+conda activate simple_test
+pip install -r requirements.txt
+```
+
+Run:
 ```
 CUDA_LAUNCH_BLOCKING=1 HYDRA_FULL_ERROR=1 python train.py datamodule.data_path=<absolute path to data dir where MNIST will be downloaded>
 ```
