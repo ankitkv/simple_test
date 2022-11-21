@@ -18,6 +18,8 @@ class DataModule(pl.LightningDataModule):
                 transforms.ToTensor(),
             ]
         )
+        # with MNIST, the batch size needs to be larger to reproduce the error, but for ImageNet,
+        # a batch size as small as 4 reproduces the error
         self.dataset_train = datasets.MNIST(
             self.hparams.data_path, transform=transform, train=True, download=True
         )
@@ -30,7 +32,7 @@ class DataModule(pl.LightningDataModule):
             self.dataset_train,
             batch_size=self.hparams.batch_size,
             shuffle=shuffle,
-            num_workers=self.hparams.num_workers,
+            num_workers=self.hparams.num_workers,  # if either train or val num_workers=0, no error
             pin_memory=True,
             drop_last=True,
         )
@@ -40,7 +42,7 @@ class DataModule(pl.LightningDataModule):
             self.dataset_val,
             batch_size=self.hparams.batch_size,
             shuffle=False,
-            num_workers=self.hparams.num_workers,
+            num_workers=self.hparams.num_workers,  # if either train or val num_workers=0, no error
             pin_memory=True,
             drop_last=False,
         )

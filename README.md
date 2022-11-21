@@ -1,5 +1,7 @@
 # simple_test
 
+There are some comments in `train.py` that indicate lines that, when changed, make the error go away.
+
 Prepare the environment:
 ```
 conda create -n simple_test python=3.9
