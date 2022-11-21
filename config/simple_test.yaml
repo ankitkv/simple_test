@@ -1,0 +1,20 @@
+datamodule:
+  data_path: data/
+  num_workers: 1
+  batch_size: 64
+
+taskmodule:
+  model_args:
+    patch_size: 16
+    drop_path_rate: 0.1
+  out_dim: 128
+
+trainer:
+  max_epochs: 5
+  accelerator: gpu
+  strategy: ddp_find_unused_parameters_false
+  num_nodes: 1
+  devices: 1
+  log_every_n_steps: 1
+  limit_train_batches: 2
+  limit_val_batches: 2
