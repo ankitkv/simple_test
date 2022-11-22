@@ -3,4 +3,3 @@ torch==1.12.1+cu113
 -f https://download.pytorch.org/whl/torch_stable.html
 torchvision==0.13.1+cu113
 pytorch-lightning==1.7.7
-hydra-core==1.1.2
