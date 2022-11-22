@@ -1,7 +1,6 @@
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
-import vision_transformer as vits
 from omegaconf import DictConfig
 from torchvision import datasets, transforms
 
@@ -53,8 +52,8 @@ class DataModule(pl.LightningDataModule):
 class PretrainModule(pl.LightningModule):
     def __init__(self):
         super().__init__()
-        self.model = vits.vit_small(patch_size=16, drop_path_rate=0.1)
-        self.head = nn.Linear(self.model.num_features, 128)
+        self.model = nn.Linear(224 * 224, 384)
+        self.head = nn.Linear(384, 128)
 
     def configure_optimizers(self):
         return torch.optim.AdamW(self.model.parameters())
@@ -66,7 +65,8 @@ class PretrainModule(pl.LightningModule):
         # this is problematic, but only if the attribute does not exist in dummy
         getattr(dummy, "anything", False)
 
-        out1 = self.model(images)[0]
+        images = images.view(images.shape[0], -1)
+        out1 = self.model(images)
         out2 = self.head(out1)  # not having self.head works fine
         loss = out2.sum()
 
