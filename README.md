@@ -21,123 +21,141 @@ TPU available: False, using: 0 TPU cores
 IPU available: False, using: 0 IPUs
 HPU available: False, using: 0 HPUs
 Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
-[2022-11-21 17:35:29,151][torch.distributed.distributed_c10d][INFO] - Added key: store_based_barrier_key:1 to store for rank: 0
-[2022-11-21 17:35:29,152][torch.distributed.distributed_c10d][INFO] - Rank 0: Completed store-based barrier for key:store_based_barrier_key:1 with 1 nodes.
 ----------------------------------------------------------------------------------------------------
 distributed_backend=nccl
 All distributed processes registered. Starting with 1 processes
 ----------------------------------------------------------------------------------------------------
 
-Missing logger folder: /home/mila/v/vanianki/devel/simple_test/outputs/2022-11-21/17-35-28/lightning_logs
 LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
 
-  | Name  | Type              | Params
---------------------------------------------
-0 | model | VisionTransformer | 21.5 M
-1 | head  | Linear            | 49.3 K
---------------------------------------------
-21.5 M    Trainable params
+  | Name  | Type   | Params
+---------------------------------
+0 | model | Linear | 10.2 K
+---------------------------------
+10.2 K    Trainable params
 0         Non-trainable params
-21.5 M    Total params
-86.073    Total estimated model params size (MB)
-Sanity Checking: 0it [00:00, ?it/s]/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:236: PossibleUserWarning: The dataloader, val_dataloader 0, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 64 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
+10.2 K    Total params
+0.041     Total estimated model params size (MB)
+/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:236: PossibleUserWarning: The dataloader, train_dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 8 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
   rank_zero_warn(
-/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:236: PossibleUserWarning: The dataloader, train_dataloader, does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` (try 64 which is the number of cpus on this machine) in the `DataLoader` init to improve performance.
-  rank_zero_warn(
-Epoch 0:  25%|████████████████████████████████████▊                                                                                                              | 1/4 [00:11<00:35, 11.88s/it, loss=-646, v_num=0][2022-11-21 17:35:48,319][torch.nn.parallel.distributed][INFO] - Reducer buckets have been rebuilt in this iteration.
-Epoch 0:  50%|████████████████terminate called after throwing an instance of 'c10::CUDAError'                                                               | 2/4 [00:12<00:12,  6.07s/it, loss=-3.17e+03, v_num=0]
+
+Training: 0it [00:00, ?it/s]
+Training:   0%|          | 0/2 [00:00<?, ?it/s]
+Epoch 0:   0%|          | 0/2 [00:00<?, ?it/s] 
+Epoch 0:  50%|█████     | 1/2 [00:01<00:01,  1.36s/it]
+Epoch 0:  50%|█████     | 1/2 [00:01<00:01,  1.36s/it, loss=-1.12, v_num=1]
+Epoch 0: 100%|██████████| 2/2 [00:01<00:00,  1.43it/s, loss=-1.12, v_num=1]
+Epoch 0: 100%|██████████| 2/2 [00:01<00:00,  1.43it/s, loss=-3.72, v_num=1]
+Epoch 0: 100%|██████████| 2/2 [00:01<00:00,  1.43it/s, loss=-3.72, v_num=1]
+Epoch 0:   0%|          | 0/2 [00:00<?, ?it/s, loss=-3.72, v_num=1]        
+Epoch 1:   0%|          | 0/2 [00:00<?, ?it/s, loss=-3.72, v_num=1]
+Epoch 1:  50%|█████     | 1/2 [00:00<00:00,  3.75it/s, loss=-3.72, v_num=1]
+Epoch 1:  50%|█████     | 1/2 [00:00<00:00,  3.72it/s, loss=-6.52, v_num=1]
+Epoch 1: 100%|██████████| 2/2 [00:00<00:00,  6.87it/s, loss=-6.52, v_num=1]
+Epoch 1: 100%|██████████| 2/2 [00:00<00:00,  6.84it/s, loss=-9.71, v_num=1]
+Epoch 1: 100%|██████████| 2/2 [00:00<00:00,  6.77it/s, loss=-9.71, v_num=1]
+Epoch 1:   0%|          | 0/2 [00:00<?, ?it/s, loss=-9.71, v_num=1]        
+Epoch 2:   0%|          | 0/2 [00:00<?, ?it/s, loss=-9.71, v_num=1]terminate called after throwing an instance of 'c10::CUDAError'
   what():  CUDA error: initialization error
 Exception raised from insert_events at ../c10/cuda/CUDACachingAllocator.cpp:1423 (most recent call first):
-frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x3e (0x7f7da89d920e in /home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/lib/libc10.so)
-frame #1: <unknown function> + 0x23af2 (0x7f7dd108eaf2 in /home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/lib/libc10_cuda.so)
-frame #2: c10::cuda::CUDACachingAllocator::raw_delete(void*) + 0x257 (0x7f7dd10939a7 in /home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/lib/libc10_cuda.so)
-frame #3: <unknown function> + 0x463338 (0x7f7dfa601338 in /home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
-frame #4: c10::TensorImpl::release_resources() + 0x175 (0x7f7da89c07a5 in /home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/lib/libc10.so)
-frame #5: <unknown function> + 0x35f355 (0x7f7dfa4fd355 in /home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
-frame #6: <unknown function> + 0x678d38 (0x7f7dfa816d38 in /home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
-frame #7: THPVariable_subclass_dealloc(_object*) + 0x2b5 (0x7f7dfa8170e5 in /home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
+frame #0: c10::Error::Error(c10::SourceLocation, std::string) + 0x3e (0x7f2d18abe20e in /home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/lib/libc10.so)
+frame #1: <unknown function> + 0x23af2 (0x7f2d18b35af2 in /home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/lib/libc10_cuda.so)
+frame #2: c10::cuda::CUDACachingAllocator::raw_delete(void*) + 0x257 (0x7f2d18b3a9a7 in /home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/lib/libc10_cuda.so)
+frame #3: <unknown function> + 0x463338 (0x7f2d052ab338 in /home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
+frame #4: c10::TensorImpl::release_resources() + 0x175 (0x7f2d18aa57a5 in /home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/lib/libc10.so)
+frame #5: <unknown function> + 0x35f355 (0x7f2d051a7355 in /home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
+frame #6: <unknown function> + 0x678d38 (0x7f2d054c0d38 in /home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
+frame #7: THPVariable_subclass_dealloc(_object*) + 0x2b5 (0x7f2d054c10e5 in /home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/lib/libtorch_python.so)
+frame #8: python() [0x4f0470]
+frame #9: python() [0x4f0537]
+frame #10: python() [0x5025a9]
+frame #11: python() [0x4df64f]
+frame #12: python() [0x4dd5d0]
+frame #13: python() [0x590a9c]
+frame #14: python() [0x553ab4]
 <omitting python frames>
+frame #16: python() [0x4e6a5a]
+frame #19: python() [0x4e6a5a]
+frame #22: python() [0x4e6a5a]
+frame #25: python() [0x4e6a5a]
+frame #28: python() [0x4f81a3]
+frame #30: python() [0x4f81a3]
+frame #32: python() [0x4e6a5a]
+frame #33: python() [0x50547d]
+frame #35: python() [0x4f81a3]
+frame #37: python() [0x4f81a3]
+frame #39: python() [0x5029a1]
+frame #42: python() [0x4f81a3]
+frame #44: python() [0x4f81a3]
+frame #46: python() [0x4f81a3]
+frame #48: python() [0x4e6a5a]
+frame #50: python() [0x5029a1]
+frame #53: python() [0x4f81a3]
+frame #55: python() [0x4f81a3]
+frame #56: python() [0x53045e]
+frame #57: python() [0x5cb659]
+frame #59: python() [0x4f8944]
+frame #61: python() [0x4e6a5a]
 
-Error executing job with overrides: ['datamodule.data_path=/home/mila/v/vanianki/devel/simple_test/data']
 Traceback (most recent call last):
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1163, in _try_get_data
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1163, in _try_get_data
     data = self._data_queue.get(timeout=timeout)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/queue.py", line 180, in get
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/queue.py", line 180, in get
     self.not_empty.wait(remaining)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/threading.py", line 316, in wait
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/threading.py", line 316, in wait
     gotit = waiter.acquire(True, timeout)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/_utils/signal_handling.py", line 66, in handler
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/_utils/signal_handling.py", line 66, in handler
     _error_if_any_worker_fails()
-RuntimeError: DataLoader worker (pid 40427) is killed by signal: Aborted. 
+RuntimeError: DataLoader worker (pid 4971) is killed by signal: Aborted. 
 
 The above exception was the direct cause of the following exception:
 
 Traceback (most recent call last):
-  File "/home/mila/v/vanianki/devel/simple_test/train.py", line 89, in <module>
+  File "/home/ankit/devel/simple_test/train.py", line 72, in <module>
     main()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/hydra/main.py", line 48, in decorated_main
-    _run_hydra(
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/hydra/_internal/utils.py", line 377, in _run_hydra
-    run_and_report(
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/hydra/_internal/utils.py", line 214, in run_and_report
-    raise ex
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/hydra/_internal/utils.py", line 211, in run_and_report
-    return func()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/hydra/_internal/utils.py", line 378, in <lambda>
-    lambda: hydra.run(
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/hydra/_internal/hydra.py", line 111, in run
-    _ = ret.return_value
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/hydra/core/utils.py", line 233, in return_value
-    raise self._return_value
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/hydra/core/utils.py", line 160, in run_job
-    ret.return_value = task_function(task_cfg)
-  File "/home/mila/v/vanianki/devel/simple_test/train.py", line 82, in main
-    trainer.fit(
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 696, in fit
+  File "/home/ankit/devel/simple_test/train.py", line 68, in main
+    trainer.fit(module, datamodule=datamodule)
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 696, in fit
     self._call_and_handle_interrupt(
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 648, in _call_and_handle_interrupt
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 648, in _call_and_handle_interrupt
     return self.strategy.launcher.launch(trainer_fn, *args, trainer=self, **kwargs)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 93, in launch
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 93, in launch
     return function(*args, **kwargs)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 735, in _fit_impl
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 735, in _fit_impl
     results = self._run(model, ckpt_path=self.ckpt_path)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1166, in _run
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1166, in _run
     results = self._run_stage()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1252, in _run_stage
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1252, in _run_stage
     return self._run_train()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1283, in _run_train
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1283, in _run_train
     self.fit_loop.run()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 200, in run
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 200, in run
     self.advance(*args, **kwargs)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 271, in advance
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 271, in advance
     self._outputs = self.epoch_loop.run(self._data_fetcher)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 201, in run
-    self.on_advance_end()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 241, in on_advance_end
-    self._run_validation()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 299, in _run_validation
-    self.val_loop.run()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 200, in run
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 200, in run
     self.advance(*args, **kwargs)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/dataloader/evaluation_loop.py", line 155, in advance
-    dl_outputs = self.epoch_loop.run(self._data_fetcher, dl_max_batches, kwargs)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/loop.py", line 200, in run
-    self.advance(*args, **kwargs)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/evaluation_epoch_loop.py", line 127, in advance
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/loops/epoch/training_epoch_loop.py", line 174, in advance
     batch = next(data_fetcher)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/utilities/fetching.py", line 184, in __next__
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/utilities/fetching.py", line 184, in __next__
     return self.fetching_function()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/utilities/fetching.py", line 263, in fetching_function
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/utilities/fetching.py", line 263, in fetching_function
     self._fetch_next_batch(self.dataloader_iter)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/utilities/fetching.py", line 277, in _fetch_next_batch
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/utilities/fetching.py", line 277, in _fetch_next_batch
     batch = next(iterator)
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 681, in __next__
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/supporters.py", line 557, in __next__
+    return self.request_next_batch(self.loader_iters)
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/trainer/supporters.py", line 569, in request_next_batch
+    return apply_to_collection(loader_iters, Iterator, next)
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/pytorch_lightning/utilities/apply_func.py", line 99, in apply_to_collection
+    return function(data, *args, **kwargs)
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 681, in __next__
     data = self._next_data()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1359, in _next_data
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1359, in _next_data
     idx, data = self._get_data()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1315, in _get_data
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1315, in _get_data
     success, data = self._try_get_data()
-  File "/home/mila/v/vanianki/.conda/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1176, in _try_get_data
+  File "/home/ankit/.miniconda3/envs/simple_test/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1176, in _try_get_data
     raise RuntimeError('DataLoader worker (pid(s) {}) exited unexpectedly'.format(pids_str)) from e
-RuntimeError: DataLoader worker (pid(s) 40427) exited unexpectedly
+RuntimeError: DataLoader worker (pid(s) 4971) exited unexpectedly
 ```
