@@ -1,15 +1,17 @@
-import hydra
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import vision_transformer as vits
+from omegaconf import DictConfig
 from torchvision import datasets, transforms
 
 
 class DataModule(pl.LightningDataModule):
-    def __init__(self, **kwargs):
+    def __init__(self):
         super().__init__()
-        self.save_hyperparameters()
+        self.data_path = "data"
+        self.batch_size = 64
+        self.num_workers = 1
 
     def setup(self, stage=None):
         transform = transforms.Compose(
@@ -21,18 +23,18 @@ class DataModule(pl.LightningDataModule):
         # with MNIST, the batch size needs to be larger to reproduce the error, but for ImageNet,
         # a batch size as small as 4 reproduces the error
         self.dataset_train = datasets.MNIST(
-            self.hparams.data_path, transform=transform, train=True, download=True
+            self.data_path, transform=transform, train=True, download=True
         )
         self.dataset_val = datasets.MNIST(
-            self.hparams.data_path, transform=transform, train=False, download=True
+            self.data_path, transform=transform, train=False, download=True
         )
 
     def train_dataloader(self, shuffle=True):
         return torch.utils.data.DataLoader(
             self.dataset_train,
-            batch_size=self.hparams.batch_size,
+            batch_size=self.batch_size,
             shuffle=shuffle,
-            num_workers=self.hparams.num_workers,  # if either train or val num_workers=0, no error
+            num_workers=self.num_workers,  # if either train or val num_workers=0, no error
             pin_memory=True,
             drop_last=True,
         )
@@ -40,20 +42,19 @@ class DataModule(pl.LightningDataModule):
     def val_dataloader(self):
         return torch.utils.data.DataLoader(
             self.dataset_val,
-            batch_size=self.hparams.batch_size,
+            batch_size=self.batch_size,
             shuffle=False,
-            num_workers=self.hparams.num_workers,  # if either train or val num_workers=0, no error
+            num_workers=self.num_workers,  # if either train or val num_workers=0, no error
             pin_memory=True,
             drop_last=False,
         )
 
 
 class PretrainModule(pl.LightningModule):
-    def __init__(self, **kwargs):
+    def __init__(self):
         super().__init__()
-        self.save_hyperparameters()
-        self.model = vits.vit_small(**self.hparams.model_args)
-        self.head = nn.Linear(self.model.num_features, self.hparams.out_dim)
+        self.model = vits.vit_small(patch_size=16, drop_path_rate=0.1)
+        self.head = nn.Linear(self.model.num_features, 128)
 
     def configure_optimizers(self):
         return torch.optim.AdamW(self.model.parameters())
@@ -61,8 +62,9 @@ class PretrainModule(pl.LightningModule):
     def training_step(self, batch, _):
         images = batch[0]
 
+        dummy = DictConfig({"test": 1})
         # this is problematic, but only if the attribute does not exist in model_args
-        getattr(self.hparams.model_args, "anything", False)
+        getattr(dummy, "anything", False)
 
         out1 = self.model(images)[0]
         out2 = self.head(out1)  # not having self.head works fine
@@ -76,11 +78,19 @@ class PretrainModule(pl.LightningModule):
         pass
 
 
-@hydra.main(config_path="config", config_name="simple_test")
-def main(config):
-    datamodule = DataModule(**config.datamodule)
-    module = PretrainModule(**config.taskmodule, epochs=config.trainer.max_epochs)
-    trainer = pl.Trainer(**config.trainer)
+def main():
+    datamodule = DataModule()
+    module = PretrainModule()
+    trainer = pl.Trainer(
+        max_epochs=5,
+        accelerator="gpu",
+        strategy="ddp_find_unused_parameters_false",
+        num_nodes=1,
+        devices=1,
+        log_every_n_steps=1,
+        limit_train_batches=2,
+        limit_val_batches=2,
+    )
     trainer.fit(
         module,
         datamodule=datamodule,

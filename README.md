@@ -11,7 +11,7 @@ pip install -r requirements.txt
 
 Run:
 ```
-CUDA_LAUNCH_BLOCKING=1 HYDRA_FULL_ERROR=1 python train.py datamodule.data_path=<absolute path to data dir where MNIST will be downloaded>
+CUDA_LAUNCH_BLOCKING=1 HYDRA_FULL_ERROR=1 python train.py
 ```
 
 Expected logs:
