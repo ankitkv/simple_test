@@ -11,10 +11,7 @@ class DataModule(pl.LightningDataModule):
 
     def setup(self, stage=None):
         transform = transforms.Compose(
-            [
-                transforms.Resize((32, 32)),
-                transforms.ToTensor(),
-            ]
+            [transforms.Resize((32, 32)), transforms.ToTensor()]
         )
         self.dataset_train = datasets.MNIST(
             "data", transform=transform, train=True, download=True
@@ -31,7 +28,7 @@ class DataModule(pl.LightningDataModule):
         )
 
 
-class PretrainModule(pl.LightningModule):
+class TrainModule(pl.LightningModule):
     def __init__(self):
         super().__init__()
         self.model = nn.Linear(32 * 32, 10)
@@ -57,7 +54,7 @@ class PretrainModule(pl.LightningModule):
 
 def main():
     datamodule = DataModule()
-    module = PretrainModule()
+    module = TrainModule()
     trainer = pl.Trainer(
         max_epochs=5,
         accelerator="gpu",
@@ -68,10 +65,7 @@ def main():
         limit_train_batches=2,
         limit_val_batches=2,
     )
-    trainer.fit(
-        module,
-        datamodule=datamodule,
-    )
+    trainer.fit(module, datamodule=datamodule)
 
 
 if __name__ == "__main__":
