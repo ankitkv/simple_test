@@ -63,7 +63,7 @@ class PretrainModule(pl.LightningModule):
         images = batch[0]
 
         dummy = DictConfig({"test": 1})
-        # this is problematic, but only if the attribute does not exist in model_args
+        # this is problematic, but only if the attribute does not exist in dummy
         getattr(dummy, "anything", False)
 
         out1 = self.model(images)[0]
