@@ -9,18 +9,16 @@ class DataModule(pl.LightningDataModule):
     def __init__(self):
         super().__init__()
         self.data_path = "data"
-        self.batch_size = 64
+        self.batch_size = 4
         self.num_workers = 1
 
     def setup(self, stage=None):
         transform = transforms.Compose(
             [
-                transforms.Resize((224, 224)),
+                transforms.Resize((32, 32)),
                 transforms.ToTensor(),
             ]
         )
-        # with MNIST, the batch size needs to be larger to reproduce the error, but for ImageNet,
-        # a batch size as small as 4 reproduces the error
         self.dataset_train = datasets.MNIST(
             self.data_path, transform=transform, train=True, download=True
         )
@@ -52,8 +50,7 @@ class DataModule(pl.LightningDataModule):
 class PretrainModule(pl.LightningModule):
     def __init__(self):
         super().__init__()
-        self.model = nn.Linear(224 * 224, 384)
-        self.head = nn.Linear(384, 128)
+        self.model = nn.Linear(32 * 32, 10)
 
     def configure_optimizers(self):
         return torch.optim.AdamW(self.model.parameters())
@@ -62,19 +59,18 @@ class PretrainModule(pl.LightningModule):
         images = batch[0]
 
         dummy = DictConfig({"test": 1})
-        # this is problematic, but only if the attribute does not exist in dummy
+        # removing this, or changing "anything" to "test", removes the error
         getattr(dummy, "anything", False)
 
         images = images.view(images.shape[0], -1)
-        out1 = self.model(images)
-        out2 = self.head(out1)  # not having self.head works fine
-        loss = out2.sum()
+        out = self.model(images)
+        loss = out.sum()
 
-        self.all_gather(out2)  # out1 works fine, otherwise problematic
+        self.all_gather(out)  # removing this removes the error
 
         return loss
 
-    def validation_step(self, batch, _):  # not having this works fine
+    def validation_step(self, batch, _):  # removing this removes the error
         pass
 
 
