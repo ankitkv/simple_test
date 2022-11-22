@@ -1,6 +1,6 @@
 # simple_test
 
-There are some comments in `train.py` that indicate lines that, when changed, make the error go away.
+There are some comments in `train.py` that indicate lines that, when changed, make the error go away. If the error does not appear once, try running a few more times.
 
 Prepare the environment:
 ```
