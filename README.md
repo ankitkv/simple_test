@@ -11,7 +11,7 @@ pip install -r requirements.txt
 
 Run:
 ```
-CUDA_LAUNCH_BLOCKING=1 HYDRA_FULL_ERROR=1 python train.py
+CUDA_LAUNCH_BLOCKING=1 python train.py
 ```
 
 Expected logs:
