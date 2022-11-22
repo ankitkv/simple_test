@@ -8,9 +8,6 @@ from torchvision import datasets, transforms
 class DataModule(pl.LightningDataModule):
     def __init__(self):
         super().__init__()
-        self.data_path = "data"
-        self.batch_size = 4
-        self.num_workers = 1
 
     def setup(self, stage=None):
         transform = transforms.Compose(
@@ -20,30 +17,17 @@ class DataModule(pl.LightningDataModule):
             ]
         )
         self.dataset_train = datasets.MNIST(
-            self.data_path, transform=transform, train=True, download=True
-        )
-        self.dataset_val = datasets.MNIST(
-            self.data_path, transform=transform, train=False, download=True
+            "data", transform=transform, train=True, download=True
         )
 
     def train_dataloader(self, shuffle=True):
         return torch.utils.data.DataLoader(
             self.dataset_train,
-            batch_size=self.batch_size,
+            batch_size=4,
             shuffle=shuffle,
-            num_workers=self.num_workers,  # if either train or val num_workers=0, no error
+            num_workers=1,  # changing this to 0 removes the error
             pin_memory=True,
             drop_last=True,
-        )
-
-    def val_dataloader(self):
-        return torch.utils.data.DataLoader(
-            self.dataset_val,
-            batch_size=self.batch_size,
-            shuffle=False,
-            num_workers=self.num_workers,  # if either train or val num_workers=0, no error
-            pin_memory=True,
-            drop_last=False,
         )
 
 
@@ -69,9 +53,6 @@ class PretrainModule(pl.LightningModule):
         self.all_gather(out)  # removing this removes the error
 
         return loss
-
-    def validation_step(self, batch, _):  # removing this removes the error
-        pass
 
 
 def main():
